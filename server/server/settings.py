@@ -14,12 +14,19 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
 
+    'corsheaders',
     'rest_framework',
 
     'store'
 ]
 
-MIDDLEWARE = []
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+]
+
+# Allow all origins in development
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'server.urls'
 
@@ -44,7 +51,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # MongoDB Connection
 mongoengine.connect(
     db="clothing_store_db",
-    host="mongodb://localhost:27017/clothing_store_db"
+    host="mongodb+srv://admin:admin@cluster0.vff5dj4.mongodb.net/clothing_store_db"
 )
 
 REST_FRAMEWORK = {

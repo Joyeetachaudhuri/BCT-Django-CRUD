@@ -19,8 +19,10 @@ class JWTAuthentication(BaseAuthentication):
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
             user = User.objects.get(id=payload["user_id"])
-
-        except:
-            raise AuthenticationFailed("Invalid token")
+        except Exception:
+            # Return None instead of raising, so public endpoints still work
+            # with an invalid/stale token. Protected endpoints will still
+            # reject unauthenticated users via @permission_classes.
+            return None
 
         return (user, None)
